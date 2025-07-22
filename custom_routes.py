@@ -280,7 +280,12 @@ def post_prompt(json_data):
 
     if "prompt" in json_data:
         prompt = json_data["prompt"]
-        valid = execution.validate_prompt(prompt)
+        try:
+            import uuid
+            prompt_id = str(uuid.uuid4())
+            valid = execution.validate_prompt(prompt_id, prompt)
+        except TypeError:
+            valid = execution.validate_prompt(prompt)
         extra_data = {}
         if "extra_data" in json_data:
             extra_data = json_data["extra_data"]
